@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Administrateur</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+        .navbar {
+            background: linear-gradient(90deg, #c0392b, #e74c3c);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a { color: white; text-decoration: none; margin-left: 15px; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            border-left: 5px solid #e74c3c;
+        }
+        h2 { color: #1a1a2e; margin-bottom: 12px; }
+        p { color: #555; line-height: 1.7; margin-bottom: 10px; }
+        .warning {
+            background: #fdf2f2;
+            border: 1px solid #e74c3c;
+            border-radius: 8px;
+            padding: 14px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #c0392b;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th { background: #e74c3c; color: white; padding: 10px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #eee; color: #555; }
+        .btn {
+            display: inline-block;
+            padding: 9px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px 5px 0 0;
+        }
+        .btn-home   { background: #7f8c8d; color: white; }
+        .btn-user   { background: #3498db; color: white; }
+        .btn-logout { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span>🔑 Espace Administrateur</span>
+        <div>
+            <span sec:authentication="name"></span>
+            <a th:href="@{/home}">| Accueil</a>
+            <a th:href="@{/logout}">| Déconnexion</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>🔑 Tableau de bord Administrateur</h2>
+            <p>Bienvenue <strong sec:authentication="name">Admin</strong> !</p>
+            <p>Cette section est <strong>réservée exclusivement au rôle ADMIN</strong>.</p>
+
+            <div class="warning">
+                ⚠️ Règle appliquée : <code>hasRole("ADMIN")</code><br>
+                Un utilisateur avec uniquement le rôle USER reçoit une erreur <strong>403 Forbidden</strong>.
+            </div>
+
+            <table>
+                <tr>
+                    <th>Propriété</th>
+                    <th>Valeur</th>
+                </tr>
+                <tr>
+                    <td>Nom d'utilisateur</td>
+                    <td><span sec:authentication="name">-</span></td>
+                </tr>
+                <tr>
+                    <td>Rôles</td>
+                    <td><span sec:authentication="authorities">-</span></td>
+                </tr>
+                <tr>
+                    <td>Source authentification</td>
+                    <td>MySQL via <code>CustomUserDetailsService</code></td>
+                </tr>
+                <tr>
+                    <td>Encodage mot de passe</td>
+                    <td>BCrypt ($2a$10$...)</td>
+                </tr>
+            </table>
+
+            <br>
+            <a href="/home"           class="btn btn-home">🏠 Accueil</a>
+            <a href="/user/dashboard" class="btn btn-user">👤 Espace Utilisateur</a>
+            <a href="/logout"         class="btn btn-logout">🚪 Déconnexion</a>
+        </div>
+    </div>
+</body>
+</html>

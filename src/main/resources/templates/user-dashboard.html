@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Espace Utilisateur</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+        .navbar {
+            background: #3498db;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a { color: white; text-decoration: none; margin-left: 15px; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border-left: 5px solid #3498db;
+        }
+        h2 { color: #1a1a2e; margin-bottom: 12px; }
+        p { color: #555; line-height: 1.7; margin-bottom: 10px; }
+        .info-box {
+            background: #eaf4fb;
+            border-radius: 8px;
+            padding: 14px;
+            margin: 15px 0;
+            font-size: 13px;
+            color: #2471a3;
+        }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        th { background: #3498db; color: white; padding: 10px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #eee; color: #555; }
+        .btn {
+            display: inline-block;
+            padding: 9px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px 5px 0 0;
+        }
+        .btn-home   { background: #7f8c8d; color: white; }
+        .btn-logout { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span>👤 Espace Utilisateur</span>
+        <div>
+            <span sec:authentication="name"></span>
+            <a th:href="@{/home}">| Accueil</a>
+            <a th:href="@{/logout}">| Déconnexion</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>👤 Tableau de bord Utilisateur</h2>
+            <p>Bonjour <strong sec:authentication="name">Utilisateur</strong> !</p>
+            <p>Cette page est accessible aux rôles <strong>USER</strong> et <strong>ADMIN</strong>.</p>
+
+            <div class="info-box">
+                ℹ️ Règle appliquée : <code>hasAnyRole("USER", "ADMIN")</code><br>
+                🗄️ Ton compte est stocké en <strong>MySQL</strong> avec mot de passe <strong>BCrypt</strong>.
+            </div>
+
+            <table>
+                <tr>
+                    <th>Propriété</th>
+                    <th>Valeur</th>
+                </tr>
+                <tr>
+                    <td>Nom d'utilisateur</td>
+                    <td><span sec:authentication="name">-</span></td>
+                </tr>
+                <tr>
+                    <td>Rôles</td>
+                    <td><span sec:authentication="authorities">-</span></td>
+                </tr>
+                <tr>
+                    <td>Source</td>
+                    <td>MySQL (table <code>users</code>)</td>
+                </tr>
+                <tr>
+                    <td>Encodage mot de passe</td>
+                    <td>BCrypt ($2a$...)</td>
+                </tr>
+            </table>
+
+            <br>
+            <a href="/home"   class="btn btn-home">🏠 Retour à l'accueil</a>
+            <a href="/logout" class="btn btn-logout">🚪 Déconnexion</a>
+        </div>
+    </div>
+</body>
+</html>

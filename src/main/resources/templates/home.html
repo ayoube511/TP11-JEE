@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+        .navbar {
+            background: linear-gradient(90deg, #1a1a2e, #0f3460);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .brand { font-weight: bold; font-size: 17px; }
+        .navbar .user-info { font-size: 14px; }
+        .navbar a { color: #aac4ff; text-decoration: none; margin-left: 15px; }
+        .navbar a:hover { color: white; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        h2 { color: #1a1a2e; margin-bottom: 12px; font-size: 20px; }
+        p { color: #555; line-height: 1.7; margin-bottom: 8px; }
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 6px;
+        }
+        .badge-admin { background: #e74c3c; color: white; }
+        .badge-user  { background: #3498db; color: white; }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 6px 6px 0 0;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.85; }
+        .btn-user   { background: #3498db; color: white; }
+        .btn-admin  { background: #e74c3c; color: white; }
+        .btn-logout { background: #7f8c8d; color: white; }
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #0f3460;
+            border-radius: 6px;
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #444;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="brand">🔐 Spring Security JPA</span>
+        <div class="user-info">
+            Connecté : <strong sec:authentication="name">Utilisateur</strong>
+            <a th:href="@{/logout}">| Déconnexion</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>🏠 Bienvenue dans l'application sécurisée</h2>
+            <p>
+                Connexion réussie ! Tu es connecté en tant que
+                <strong sec:authentication="name">Utilisateur</strong>
+                <span sec:authorize="hasRole('ROLE_ADMIN')" class="badge badge-admin">ADMIN</span>
+                <span sec:authorize="hasRole('ROLE_USER') and !hasRole('ROLE_ADMIN')" class="badge badge-user">USER</span>
+            </p>
+            <div class="info-box">
+                🗄️ Ton compte a été chargé depuis <strong>MySQL</strong> et ton mot de passe est protégé avec <strong>BCrypt</strong>.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🧭 Navigation</h2>
+            <p>Accède aux espaces selon ton rôle :</p>
+            <a href="/user/dashboard"  class="btn btn-user">👤 Espace Utilisateur</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')"
+               href="/admin/dashboard" class="btn btn-admin">🔑 Espace Administrateur</a>
+            <a href="/logout" class="btn btn-logout">🚪 Déconnexion</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Accès refusé - 403</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            border-radius: 12px;
+            padding: 45px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 420px;
+        }
+        .icon { font-size: 65px; margin-bottom: 15px; }
+        h2 { color: #e74c3c; margin-bottom: 12px; font-size: 22px; }
+        p { color: #666; margin-bottom: 10px; line-height: 1.6; font-size: 15px; }
+        .code {
+            display: inline-block;
+            background: #fdf2f2;
+            color: #c0392b;
+            padding: 4px 12px;
+            border-radius: 5px;
+            font-size: 13px;
+            margin: 8px 0;
+            font-family: monospace;
+        }
+        a.btn {
+            display: inline-block;
+            padding: 11px 28px;
+            background: #0f3460;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        a.btn:hover { background: #1a1a2e; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="icon">🚫</div>
+        <h2>Accès refusé</h2>
+        <p>Tu n'as pas les droits pour accéder à cette page.</p>
+        <p>Connecté en tant que : <strong sec:authentication="name">Utilisateur</strong></p>
+        <div class="code">HTTP 403 - Forbidden</div>
+        <br>
+        <a href="/home" class="btn">🏠 Retour à l'accueil</a>
+    </div>
+</body>
+</html>
